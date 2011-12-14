@@ -5,7 +5,6 @@ class AdminController < ApplicationController
   skip_before_filter :initialize_cart
   
   def require_admin!
-    puts current_user.email
     unless current_user.admin?
       render 'public/403.html', status: 403, layout: false
     end
