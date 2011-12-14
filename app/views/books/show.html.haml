@@ -1,0 +1,60 @@
+.book-details
+  .image-container
+    = image_tag(@book.image_url) if @book.image?
+  .text-container
+    %h1= @book.title
+    - if @book.authors.any?
+      .author-names
+        = links_to_authors_books @book.authors
+    .description= @book.description if @book.description
+    - if @book.quantity == 0
+      %div -- нет в наличии --
+    - else
+      .actions
+        - if @cart.has? @book
+          %span.price= number_to_currency @book.price
+          %span.quantity × #{@cart.items.find_by_book_id(@book.id).quantity} шт.
+          = link_to 'в корзине', cart_items_path
+          = form_for @cart.items.find_by_book_id(@book.id), html: {class: 'decline'}, method: :delete do |f|
+            = f.submit 'убрать', class: 'delete'
+        - else
+          %span.price= number_to_currency @book.price
+          = form_for @cart_item do |f|
+            = f.hidden_field :book_id, value: @book.id
+            = f.text_field :quantity
+            = f.submit 'в корзину', class: 'create'
+    %a{ href: url_for(controller: 'books', action: 'index', search: session[:search], page: session[:page], field: session[:field], direction: session[:direction], author_id: session[:author_id], category_id: session[:category_id], publisher_id: session[:publisher_id]) + "\##{@book.id}" } вернуться к списку
+          
+    .other
+      - if @book.publisher
+        .publisher
+          Издательство
+          = link_to @book.publisher.name, publisher_books_path(@book.publisher)
+      
+      - if @book.isbn
+        .isbn ISBN: #{@book.isbn}
+      
+      - if @book.year
+        .year Год: #{@book.year}
+        
+      - if @book.pages_count
+        .pages-count Страниц: #{@book.pages_count}
+        
+      - if @book.printed_copies_count
+        .printed-copies-count Тираж: #{@book.printed_copies_count}
+          
+
+          
+%script#buy_action_template{ type: 'text/html' }
+  %span.price= '{{price}}'
+  = form_for @cart_item do |f|
+    = f.hidden_field :book_id, value: '{{book_id}}'
+    = f.text_field :quantity
+    = f.submit 'в корзину', class: 'create'
+    
+%script#decline_action_template{ type: 'text/html' }
+  %span.price= '{{price}}'
+  %span.quantity= '× {{quantity}} шт.'
+  = link_to 'в корзине', cart_items_path
+  = form_tag '/cart_items/{{id}}', class: 'decline',  method: :delete do
+    = submit_tag 'убрать', class: 'delete'

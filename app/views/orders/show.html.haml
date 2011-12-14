@@ -1,0 +1,16 @@
+%h1 Заказ №#{@order.id}
+
+.content
+  %table.order_items
+    - for item in @order.items
+      %tr
+        %td.title= link_to item.book.title, item.book
+        %td #{item.quantity} × #{number_to_currency item.price}
+  .spacer
+  = button_to 'отменить заказ', @order, class: 'delete', method: :delete, confirm: 'Вы действительно хотите отменить этот заказ?'
+
+.sidebar
+  .price Стоимость: #{number_to_currency @order.price}
+  .state заказ #{state_to_russian @order.state}
+  .spacer
+  = link_to 'перейти к оплате', new_payment_path, class: 'new'

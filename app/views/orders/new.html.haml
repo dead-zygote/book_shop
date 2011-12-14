@@ -1,0 +1,31 @@
+%h2 Оформление заказа
+
+= form_for @order do |order_form|
+  = errors_of @order
+  %h3 Список книг
+  %table.order_items
+    %th
+    %th название книги
+    %th цена
+    %th количество
+    = order_form.fields_for :items do |item_form|
+      = item_form.hidden_field :book_id
+      = item_form.hidden_field :quantity
+      = item_form.hidden_field :price
+      %tr{ class: cycle('odd', 'even') }
+        %td= item_form.check_box :chosen
+        %td.title= link_to item_form.object.book.title, item_form.object.book
+        %td #{number_to_currency item_form.object.price}
+        %td
+          ×
+          = item_form.text_field :quantity, class: 'quantity'
+
+  %h3 Адрес доставки
+  %table
+    - for address in current_user.addresses
+      %tr{ class: cycle('odd', 'even') }
+        %td= radio_button_tag 'order[delivery_address_id]',  address.id, checked: address.make_default
+        %td= address.to_s
+  .spacer
+  = order_form.submit 'Заказать', class: 'create'
+  = link_to 'отмена', books_path, confirm: 'Желаете оформить заказ позже?'

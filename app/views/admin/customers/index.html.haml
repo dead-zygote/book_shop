@@ -1,0 +1,15 @@
+- if @customers.any?
+  %table
+    %tr
+      %th= sorting_link 'id', 'id'
+      %th= sorting_link 'email', 'email'
+      %th количество заказов
+      %th= sorting_link 'дата регистрации', 'created_at'
+    - for customer in @customers
+      %tr
+        %td= customer.id
+        %td= link_to customer.email, admin_customer_path(customer)
+        %td= customer.orders.count
+        %td= customer.created_at
+        
+  = will_paginate @customers

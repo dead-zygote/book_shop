@@ -1,0 +1,40 @@
+!!!
+%html
+%head
+  %title Newbs
+  = stylesheet_link_tag    "application"
+  = javascript_include_tag "application"
+  = csrf_meta_tags
+%body
+  .top-panel
+    .nav
+      .left
+        = nav_link 'каталог', books_path, 'books'
+        &nbsp;&nbsp;&nbsp;
+        = nav_link 'корзина', cart_items_path, 'cart_items'
+        %span#cart-price= number_to_currency @cart.price
+        &nbsp;&nbsp;
+        - if user_signed_in? and current_user.orders.any?
+          = nav_link 'заказы', orders_path, 'orders'
+      .right
+        - if user_signed_in?
+          - if current_user.admin?
+            = link_to 'администрирование', admin_root_path
+          - else
+            - if controller_name == 'addresses'
+              = link_to 'настройки', addresses_path, class: 'active'
+            - else
+              = link_to 'настройки', addresses_path
+          &nbsp;&nbsp;&nbsp;
+          = link_to 'помощь'
+          &nbsp;&nbsp;&nbsp;
+          = button_to "выход", destroy_user_session_path, class: 'exit', :method => :delete
+        - else
+          = link_to "вход", new_user_session_path
+  #container      
+    - if notice
+      .notice -- #{notice} --
+    - if alert
+      .alert -- #{alert} --
+      
+    = yield

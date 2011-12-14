@@ -1,0 +1,24 @@
+%h2 Ваши адреса
+
+.content
+  - if @addresses.empty?
+    Чтобы делать заказы, вам нужно
+    = link_to 'добавить', new_address_path
+    хотя бы один адрес.
+    
+  - else
+    - for address in @addresses
+      .address
+        %div
+          %span.field Индекс:
+          #{address.postcode}
+        %div
+          %span.field Адрес:
+          #{address.region.name}, #{address.place}; #{address.address}.
+        %div
+          %span.field Получатель:
+          #{address.receiver_name}.
+        %div
+          = link_to 'изменить', edit_address_path(address)
+          
+.sidebar= link_to 'добавить новый адрес', new_address_path, class: 'new'

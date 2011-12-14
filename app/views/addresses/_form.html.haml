@@ -1,0 +1,28 @@
+= form_for @address do |f|
+  = errors_of @address
+  .field
+    = f.label :region_id
+    %br
+    = f.collection_select :region_id, Region.all, :id, :name
+  .field
+    = f.label :postcode
+    %br
+    = f.text_field :postcode
+  .field
+    = f.label :place
+    %br
+    = f.text_field :place
+  .field
+    = f.label :address
+    %br
+    = f.text_field :address
+  .field
+    = f.label :receiver_name
+    %br
+    = f.text_field :receiver_name
+  .field
+    = f.label :make_default
+    = f.check_box :make_default
+  .spacer
+  = f.submit 'сохранить', class: 'create'
+  = link_to 'отмена', addresses_path, confirm: 'Вы действительно хотите покинуть эту страницу, не сохранив введенные данные?'

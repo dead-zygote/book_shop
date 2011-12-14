@@ -1,0 +1,31 @@
+.selection
+  Показать только
+  = link_to 'все'
+  \/
+  = link_to 'не оплаченные', state: 'unpaid'
+  \/
+  = link_to 'оплаченные', state: 'paid'
+  \/
+  = link_to 'готовые', state: 'ready'
+  \/
+  = link_to 'отправленные', state: 'sent'
+
+- if @orders.any?
+  %table.orders
+    %tr
+      %th= sorting_link 'id', 'id'
+      %th пользователь
+      %th= sorting_link 'время', 'created_at'
+      %th= sorting_link 'стоимость', 'price'
+      %th= sorting_link 'состояние', 'state'
+      %th
+    - for order in @orders
+      %tr
+        %td.id= order.id
+        %td.customer= link_to order.user.email, admin_customer_path(order.user)
+        %td.time= order.created_at
+        %td.price= number_to_currency order.price
+        %td.state= state_to_russian order.state
+        %td= link_to 'открыть', admin_order_path(order)
+        
+  = will_paginate @orders

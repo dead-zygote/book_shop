@@ -1,0 +1,10 @@
+.bundle
+db/*.sqlite3
+log/*.log
+tmp/
+.sass-cache/
+public/uploads/
+db/images
+db/sphinx/
+config/*.sphinx.conf
+Gemfile.lock

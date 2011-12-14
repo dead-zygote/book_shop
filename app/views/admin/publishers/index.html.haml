@@ -1,0 +1,19 @@
+%h1 Издательства
+
+= render 'form'
+.spacer
+
+- if @publishers.any?
+  %p Выберите издательство, информацию о котором вы хотите изменить:
+  %table.publishers
+    %tr
+      %th id
+      %th название
+      %th количество книг
+    - for publisher in @publishers
+      %tr{ :class => cycle('odd', 'even') }
+        %td.id= publisher.id
+        %td.name= link_to publisher.name, edit_admin_publisher_path(publisher)
+        %td.book_count= publisher.books.count
+- else
+  %p Здесь пока ничего нет.

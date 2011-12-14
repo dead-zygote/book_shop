@@ -1,0 +1,19 @@
+- if @categories.any?
+  %table
+    %tr
+      %th= sorting_link 'id', 'id'
+      %th= sorting_link 'название', 'name'
+      %th количество книг
+      %th
+    - for category in @categories
+      %tr
+        %td.id= category.id
+        %td.name= link_to category.name, edit_admin_category_path(category)
+        %td.book_count= category.books.count
+        %td.last
+          = link_to 'изменить', edit_admin_category_path(category)
+          |
+          = link_to 'удалить', admin_category_path(category), method: :delete, confirm: 'Вы действительно хотите удалить этот раздел?'
+  = will_paginate @categories
+- else
+  %p Здесь пока ничего нет.

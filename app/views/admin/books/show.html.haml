@@ -1,0 +1,22 @@
+.book-details
+  .image-container
+    = image_tag(@book.image_url) if @book.image?
+  .text-container
+    %h1= @book.title
+    - if @book.authors.any?
+      .author-names
+        = @book.author_names
+    .description= @book.description
+    .quantity Количество: #{@book.quantity}
+    .price Цена: #{number_to_currency @book.price}
+    .availability
+      Доступность:
+      = (@book.available?) ? 'продается' : 'не продается'
+    .created-at Добавлена: #{@book.created_at}
+    .updated-at Изменена: #{@book.updated_at}
+    .actions
+      = link_to 'изменить', edit_admin_book_path(@book)
+      |
+      = link_to 'удалить', admin_book_path(@book), method: :delete, confirm: 'Вы действительно хотите удалить эту книгу?'
+      |
+    %a{ href: url_for(controller: 'books', action: 'index', page: session[:page], field: session[:field], direction: session[:direction]) + "\##{@book.id}" } вернуться к списку

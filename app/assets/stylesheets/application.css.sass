@@ -1,0 +1,349 @@
+/* = require_self
+
+$red: #d74949
+$green: #4d7843
+$blue: #6e7faf
+$dark_blue: darken($blue, 15%)
+$lightblue: #e8e8e8
+$brown: darken(red, 30%)
+$black: #2a2828
+$dark_gray: darken(#e8e8e8, 20%)
+$darkest_gray: darken(#e8e8e8, 30%)
+$light_green: #86C620
+$lightest_green: lighten($light_green, 4%)
+$light_brown: #8B6914
+
+=cell
+  display: -moz-inline-stack
+  display: inline-block
+  vertical-align: top
+  zoom: 1
+  *display: inline
+
+=with_border
+  border-radius: 8px
+  border: 1px solid gray
+  
+=centered
+  margin:
+    left: auto
+    right: auto
+    
+    
+=button
+  border: none
+  border-radius: 4px
+  padding:
+    top: 6px
+    bottom: 6px
+    left: 10px
+    right: 10px
+  font:
+    family: 'Trebuchet MS'
+    size: 16px
+    weight: bold
+
+a.new, a.new:visited
+  border-radius: 4px
+  padding:
+    top: 6px
+    bottom: 6px
+    left: 10px
+    right: 10px
+  font-weight: bold
+  display: inline-block
+  background-color: $light_green
+  color: white
+  text-decoration: none
+  &:hover
+    color: white
+    background-color: $lightest_green    
+
+a.book
+  .title
+    color: darken(#8B6914, 8%)
+    font-weight: bold
+  .authors
+    font-style: italic
+  color: black
+  text-decoration: none
+  &:hover
+    color: black
+    background-color: transparent
+    .title
+      text-decoration: underline
+  &:visited
+    color: black
+    
+=small_button
+  border: none
+  border-radius: 4px
+  padding:
+    top: 4px
+    bottom: 4px
+    left: 6px
+    right: 6px
+  font:
+    family: 'Trebuchet MS'
+    size: 16px
+    weight: normal
+  
+
+body
+  font:
+    family: 'Trebuchet MS', 'Verdana', 'Arial'
+    size: 16px
+  color: $black
+  margin: 0
+  
+h1
+  font-size: 22px
+
+h2
+  font-size: 18px
+
+h3
+  font-size: 14px
+    
+a
+  color: $light_brown
+  text-decoration: none
+  &:visited
+    color: $light_brown
+  &:hover
+    color: darken($light_brown, 10%)
+  &:focus
+    outline: none
+
+
+#container
+  +centered
+  width: 960px
+  padding:
+    top: 20px
+    bottom: 40px
+
+.content
+  +cell
+  width: 700px
+
+.sidebar
+  +cell
+  width: 200px
+  margin-left: 20px
+  padding: 0
+
+.categories
+  padding: 8px
+  border: 6px solid #eee
+
+.top-panel
+  width: 100%
+  border-bottom: 4px solid #ccc
+  background-color: $black
+  padding-bottom: 10px
+  padding-top: 20px
+  color: #ccc
+  a
+    color: #ccc
+    text-decoration: none
+    font:
+      weight: normal
+      size: 1em
+    &:visited
+      color: #ccc
+    &:hover
+      color: white
+      background-color: transparent
+  a.active
+    border-top: 2px solid #ccc
+  width: 100%
+  .nav
+    width: 960px
+    margin:
+      left: auto
+      right: auto
+    .left
+      display: inline
+    .right
+      display: inline
+      float: right
+
+.actions
+  text-align: right
+  padding: 6px
+  border-radius: 4px
+  display: inline-block
+  
+.action-container
+  text-align: right
+  
+.price
+  color: $brown
+  font-weight: bold
+
+.sorting, .selection
+  margin:
+    bottom: 10px
+  a, a:hover, a:visited
+    text-decoration: none
+    
+
+.spacer
+  height: 20px
+
+table
+  border: 6px solid #eee
+  width: 100%
+  border-collapse: collapse
+  td, th
+    padding: 6px
+    border: 1px solid #ccc
+    .title
+      width: 400px
+  td.last
+    width: 150px
+  td.book_count
+    text-align: center
+        
+=flash
+  font-weight: bold
+  text-align: center
+  
+.notice
+  +flash
+  color: $green
+
+.alert
+  +flash
+  color: red
+  
+  
+.address
+  border-top: 1px solid gray
+  font-style: italic
+  padding-top: 6px
+  padding-bottom: 6px
+  
+  
+div.book
+  border-top: 1px dotted gray
+  padding: 8px
+  margin-bottom: 10px
+  background-color: white
+  .image-container
+    +cell
+    width: 85px
+  .text-container
+    +cell
+    width: 580px
+  .quantity
+    font-weight: bold
+  input.create, input.delete
+    +small_button
+
+table
+  td
+    input.delete
+      +small_button
+
+.book-details
+  h1
+    font-size: 18px
+    margin-top: 0
+    padding-top: 0
+  .image-container
+    +cell
+  .text-container
+    +cell
+    padding: 10px
+    width: 550px
+    background-color: white
+  .description
+    margin-top: 10px
+    margin-bottom: 10px
+  .actions
+    text-align: left
+    border: none
+  .other
+    margin-top: 20px
+    margin-bottom: 20px
+    
+form.button_to, form.button_to div
+  display: inline
+  margin: 0
+  padding: 0
+
+form
+  .fieldset
+    +cell
+    margin: 5px
+    width: 440px
+  .field
+    margin-bottom: 5px
+  input.create
+    +button
+    color: white
+    background-color: $blue
+    &:hover
+      background-color: lighten($blue, 4%)
+  input.delete
+    +button
+    background-color: $dark_gray
+    color: white
+    &:hover
+      background-color: $darkest_gray
+      color: white
+
+input.exit
+  color: lighten($black, 70%)
+  margin: 0
+  padding: 0
+  background-color: transparent
+  border: none
+  font-family: 'Trebuchet MS'
+  font-weight: bold
+  &:hover
+    cursor: pointer
+    
+input[type=text]
+  font-family: 'Trebuchet MS'
+  font-size: 1em
+
+ul.errors
+  color: red
+
+
+form.new_order table.items td.title
+  width: 400px
+
+.actions form, .actions form.div
+  display: inline
+
+form.new_cart_item
+  input#cart_item_quantity
+    width: 30px
+
+form.book
+  background-color: transparent
+  #book_title, #book_author_names, #book_category_names, #book_description
+    width: 100%
+
+input.quantity, input.size, input.number
+  width: 40px
+
+    
+.pagination
+  text-align: center
+  em.current
+    font-style: normal
+    
+form.search
+  button
+    +small_button
+    background-color: $light_green
+    color: white
+    &:hover
+      background-color: lighten($light_green, 8%)
+  input[type=text]
+    width: 300px

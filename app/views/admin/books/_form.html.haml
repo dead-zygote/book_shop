@@ -1,0 +1,65 @@
+= form_for [:admin, @book], html: { multipart: true, class: 'book' } do |f|
+  - if @book.errors.any?
+    %ul.errors
+      - for message in @book.errors.full_messages
+        %li= message
+  .fieldset
+    .field
+      = f.label :image
+      %br
+      = f.file_field :image
+    .field
+      = f.label :title
+      %br
+      = f.text_field :title, class: 'title'
+    .field
+      .ui-widget
+        = f.label :author_names
+        %br
+        = f.text_field :author_names, data: { autocomplete_source: Author.order(:name).map(&:name) }
+    .field
+      .ui-widget
+        = f.label :category_names
+        %br
+        = f.text_field :category_names, data: { autocomplete_source: Category.order(:name).map(&:name) }
+    .field
+      = f.label :description
+      %br
+      = f.text_area :description, class: 'description'
+  .fieldset
+    %table
+      %tr.field
+        %td= f.label :year
+        %td= f.text_field :year, class: 'number'
+      %tr.field
+        %td= f.label :pages_count
+        %td= f.text_field :pages_count, class: 'number'
+      %tr.field
+        %td= f.label :printed_copies_count
+        %td= f.text_field :printed_copies_count, class: 'number'
+      %tr.field
+        %td= f.label 'Размеры'
+        %td
+          = f.text_field :length, class: 'size'
+          x
+          = f.text_field :width, class: 'size'
+          x
+          = f.text_field :thickness, class: 'size'
+          мм
+      %tr.field
+        %td= f.label :weight
+        %td
+          = f.text_field :weight, class: 'number'
+          г
+      %tr.field
+        %td= f.label :quantity
+        %td= f.text_field :quantity, class: 'number'
+      %tr.field
+        %td= f.label :price
+        %td= f.text_field :price, class: 'number'
+      %tr.field
+        %td= f.label :available, 'Выставить на продажу'
+        %td= f.check_box :available
+    .spacer
+    = f.submit 'сохранить', class: 'create'
+    = link_to 'отмена', admin_books_path, confirm: 'Вы хотите покинуть эту страницу, не сохранив введенные данные?'

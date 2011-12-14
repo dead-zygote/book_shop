@@ -1,0 +1,28 @@
+%h1 Пользователь #{@customer.email}
+%div
+  id: #{@customer.id}
+%div
+  зарегистрирован #{@customer.created_at}
+
+
+%h2 Заказы
+Количество заказов: #{@customer.orders.count}
+
+- if @orders.any?
+  %table
+    - if @orders.any?
+      %table.orders
+        %tr
+          %th id
+          %th время
+          %th стоимость
+          %th состояние
+        - for order in @orders
+          %tr
+            %td.id= order.id
+            %td.time= order.created_at
+            %td.price= number_to_currency order.price
+            %td.state= state_to_russian order.state
+            %td= link_to 'открыть', admin_order_path(order)
+        
+      = will_paginate @orders

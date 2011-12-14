@@ -1,0 +1,48 @@
+%h1 Заказ №#{@order.id}
+
+.content
+  %table.order_items
+    - if @order.ready? or @order.sent?
+      %tr
+        %th название книги
+        %th количество
+      - for item in @order.items
+        %tr{ class: cycle('odd', 'even') }
+          %td.title= link_to item.book.title, [:admin, item.book]
+          %td #{item.quantity} × #{number_to_currency item.price}
+    - else
+      %tr
+        %th название книги
+        %th количество
+        %th наличие
+      - for item in @order.items
+        %tr{ class: cycle('odd', 'even') }
+          %td.title= link_to item.book.title, [:admin, item.book]
+          %td #{item.quantity} × #{number_to_currency item.price}
+          %td= item.possible? ? 'есть' : 'нет'
+
+  %h2 Состояние
+  = form_for [:admin, @order] do |f|
+    %span#radio
+      - for state in Order::STATES
+        = label_tag 'state_' + state, state_to_russian(state)
+        = radio_button_tag 'state', state, state == @order.state
+    = f.submit 'изменить'
+      
+  - if @shipments.any?
+    %h2 Почтовые отправления
+    %table
+      %tr
+        %th вид
+        %th идентификатор
+      - for shipment in @shipments
+        %tr
+          %td= shipment.shipment_type
+          %td= shipment.postal_identifier
+          %td
+            = link_to 'изменить', edit_admin_order_shipment_path(@order, shipment)
+            \/
+            = link_to 'удалить', admin_order_shipment_path(@order, shipment), method: :delete, confirm: 'Вы действительно хотите удалить это почтовое отправлние?'
+  - if @order.sent?
+    .spacer
+    = link_to 'добавить почтовое отправление', new_admin_order_shipment_path(@order)

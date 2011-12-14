@@ -1,0 +1,19 @@
+- if @authors.any?
+  %table.authors
+    %tr
+      %th= sorting_link 'id', 'id'
+      %th= sorting_link 'имя', 'name'
+      %th количество книг
+      %th
+    - for author in @authors
+      %tr
+        %td.id= author.id
+        %td.name= author.name
+        %td.book_count= author.books.count
+        %td.last
+          = link_to 'изменить', edit_admin_author_path(author)
+          |
+          = link_to 'удалить', admin_author_path(author), method: :delete, confirm: 'Вы действительно хотите удалить этого автора?'
+  = will_paginate(@authors)
+- else
+  %p Здесь пока ничего нет.

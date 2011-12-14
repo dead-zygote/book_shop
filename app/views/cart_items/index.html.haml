@@ -1,0 +1,23 @@
+- if @cart_items.any?
+  .content
+    %table
+      - for cart_item in @cart_items
+        %tr
+          %td.title= link_to cart_item.book.title, cart_item.book
+          %td.quantity-and-price #{cart_item.quantity} × #{number_to_currency cart_item.book.price}
+          %td= button_to "убрать", cart_item, class: 'delete', :method => :delete, confirm: 'Вы действительно хотите убрать этот товар из корзины?'
+    .spacer
+    = button_to 'очистить корзину', @cart, class: 'delete', :method => :delete, confirm: 'Вы действительно хотите очистить корзину?'
+  
+  .sidebar
+    Товаров: #{@cart.size} шт.
+    .price Стоимость: #{number_to_currency @cart.price}
+    .spacer
+    = link_to 'оформить заказ', new_order_path, class: 'new'
+- else
+  %p
+    Ваша корзина пуста. Добавьте в нее интересующие вас
+    = succeed ',' do
+      = link_to 'книги', books_path
+    вернитесь сюда и оформите заказ.
+    

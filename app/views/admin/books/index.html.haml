@@ -1,0 +1,46 @@
+= form_tag url_for(controller: 'books', action: 'index'), class: 'search', method: 'get' do
+  = text_field_tag :search, params[:search]
+  %button
+    искать
+
+.sorting
+  Сортировать по:
+  = sorting_link 'названию', 'title'
+  \/
+  = sorting_link 'цене', 'price'
+  \/
+  = sorting_link 'количеству', 'quantity'
+  \/
+  = sorting_link 'доступности', 'available'
+
+- if @books.any?
+  .content
+    - for book in @books
+      .book{ id: book.id }
+        .image-container
+          = image_tag(book.image_url :thumb) if book.image?
+        .text-container
+          %a{ href: admin_book_path(book), class: 'book' }
+            .title= book.title
+            - if book.authors.any?
+              .authors= book.author_names
+            .description= book.description.truncate(250) if book.description
+          .action-container
+            .actions
+              = '✔' if book.available?
+              %span.price= number_to_currency book.price
+              %span.quantity × #{book.quantity} шт.
+              = link_to 'изменить', edit_admin_book_path(book)
+              |
+              = link_to 'удалить', admin_book_path(book), class: 'delete', confirm: 'Вы действительно хотите удалить эту книгу?', method: :delete
+            
+    = will_paginate @books
+    
+  .sidebar
+    Всего книг: #{Book.count}
+    %br
+    В наличии: #{Book.where('quantity > ?', 0).count}
+    %br
+    В продаже: #{Book.where(available: true).count}
+    .spacer
+    = link_to 'добавить книгу', new_admin_book_path, class: 'new'

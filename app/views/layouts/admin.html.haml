@@ -1,0 +1,32 @@
+!!!
+%html
+%head
+  %title Newbs
+  = stylesheet_link_tag    "application"
+  = stylesheet_link_tag 'jquery-ui-1.8.16.custom'
+  = javascript_include_tag "admin"
+  = csrf_meta_tags
+%body
+  .top-panel
+    .nav
+      .left
+        = nav_link 'книги', admin_books_path, 'books'
+        &nbsp;&nbsp;&nbsp;
+        = nav_link 'авторы', admin_authors_path, 'authors'
+        &nbsp;&nbsp;&nbsp;
+        = nav_link 'разделы', admin_categories_path, 'categories'
+        &nbsp;&nbsp;&nbsp;
+        = nav_link 'заказы', admin_orders_path, 'orders'
+        &nbsp;&nbsp;&nbsp;
+        = nav_link 'пользователи', admin_customers_path, 'customers'
+      .right
+        = link_to 'магазин', books_path
+        &nbsp;&nbsp;
+        = button_to "выход", destroy_user_session_path, class: 'exit', :method => :delete
+  #container
+    - if notice
+      .notice -- #{notice} --
+    - if alert
+      .alert -- #{alert} --
+      
+    = yield

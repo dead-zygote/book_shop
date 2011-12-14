@@ -1,0 +1,14 @@
+= form_for [:admin, @order, @shipment] do |f|
+  = errors_of @shipment
+  .field
+    = f.label :shipment_type
+    %span#radio
+      - for type in Shipment::ShipmentTypes
+        = radio_button_tag 'shipment[shipment_type]', type, type == @shipment.shipment_type
+        = label_tag 'shipment_shipment_type_' + type, type
+  .field
+    = f.label :postal_identifier
+    %br
+    = f.text_field :postal_identifier
+  = f.submit 'сохранить'
+  = link_to 'отмена', [:admin, @order]

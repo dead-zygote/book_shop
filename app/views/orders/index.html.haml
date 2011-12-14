@@ -1,0 +1,23 @@
+.content
+  %table
+    %tr
+      %th= sorting_link '№', 'id'
+      %th= sorting_link 'время', 'created_at'
+      %th= sorting_link 'стоимость', 'price'
+      %th состояние
+    - for order in @orders
+      %tr
+        %td= order.id
+        %td= link_to order.created_at, order
+        %td= number_to_currency OrderItem.where('order_id = ?', order.id).sum('price * quantity')
+        %td= state_to_russian order.state
+  = will_paginate @orders
+        
+        
+.sidebar
+  Всего заказов #{@orders.count}
+  .price
+    на сумму
+    = number_to_currency @orders.inject(0){ |result, order| order.price }
+  .spacer  
+  = link_to 'новый заказ', new_order_path, class: 'new'
